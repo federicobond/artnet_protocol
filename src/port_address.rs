@@ -73,6 +73,12 @@ impl<T> Convertable<T> for PortAddress {
     }
 }
 
+impl Into<u16> for PortAddress {
+    fn into(self) -> u16 {
+        return self.0;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
