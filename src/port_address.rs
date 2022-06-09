@@ -79,6 +79,18 @@ impl Into<u16> for PortAddress {
     }
 }
 
+impl PortAddress {
+    pub fn universe(&self) -> u16 {
+        let value: u16 = self.0;
+        return (value) & 0x000f;
+    }
+
+    pub fn subnet(&self) -> u16 {
+        let value: u16 = self.0;
+        return (value >> 4) & 0x000f;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -108,5 +120,17 @@ mod tests {
         let _e: PortAddress = 32_767.try_into().unwrap();
         let _f: PortAddress = 256.try_into().unwrap();
         let _f: PortAddress = 32_767u16.try_into().unwrap();
+    }
+
+    #[test]
+    fn port_address_components() {
+        assert!(
+            PortAddress::from(8).universe() == 8,
+            "port address universe should match"
+        );
+        assert!(
+            PortAddress::from(8).subnet() == 0,
+            "port address universe should match"
+        );
     }
 }
